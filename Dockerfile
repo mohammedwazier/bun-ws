@@ -1,18 +1,17 @@
-# Use the official Bun image as a parent image
-FROM oven/bun:latest
+FROM oven/bun
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . .
+COPY package.json .
+COPY bun.lockb .
 
-# Install any needed packages specified in package.json
-# If you have dependencies, uncomment the next line
-# RUN bun install
+RUN bun install --production
 
-# Make port 3000 available to the world outside this container
+COPY src src
+COPY tsconfig.json .
+# COPY public public
+
+ENV NODE_ENV production
+CMD ["bun", "src/index.ts"]
+
 EXPOSE 3000
-
-# Run websocket-server.js when the container launches
-CMD ["bun", "run", "index.js"]

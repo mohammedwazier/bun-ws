@@ -2,10 +2,18 @@
   "name": "ws-traccar",
   "module": "index.js",
   "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "bun-types": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.1.0",
+    "elysia": "latest"
   }
 }
