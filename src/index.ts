@@ -1,4 +1,4 @@
-import { Elysia, WebSocket } from "elysia";
+import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
 
 const clients = new Set<WebSocket>();
@@ -11,9 +11,7 @@ const broadcastToClients = (data: any) => {
   });
 
   clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(message);
-    }
+    client.send(message);
   });
 };
 
@@ -22,7 +20,7 @@ const app = new Elysia()
   .ws("/ws", {
     open(ws) {
       console.log("WebSocket connection opened");
-      clients.add(ws);
+      clients.add(<any>ws);
     },
     message(ws, message) {
       console.log(`Received message: ${message}`);
@@ -30,7 +28,7 @@ const app = new Elysia()
     },
     close(ws) {
       console.log("WebSocket connection closed");
-      clients.delete(ws);
+      clients.delete(<any>ws);
     },
   })
   .get("/", ({ query }) => {
