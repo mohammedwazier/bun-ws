@@ -5,7 +5,7 @@ const clients = new Set<WebSocket>();
 
 const app = new Elysia()
   .use(cors())
-  .ws("/", {
+  .ws("/ws", {
     open(ws: any) {
       console.log("WebSocket connection opened");
       clients.add(ws);
@@ -26,7 +26,7 @@ const app = new Elysia()
       ...query,
       recv_server,
     };
-    console.log({ query });
+    // console.log({ query });
 
     for (const client of clients) {
       client.send(
