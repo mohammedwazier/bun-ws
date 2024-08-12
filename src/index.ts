@@ -1,12 +1,26 @@
-import { Elysia } from "elysia";
+import { Elysia, WebSocket } from "elysia";
 import { cors } from "@elysiajs/cors";
 
 const clients = new Set<WebSocket>();
 
+// Prepare a reusable function for broadcasting
+const broadcastToClients = (data: any) => {
+  const message = JSON.stringify({
+    type: "location",
+    data,
+  });
+
+  clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(message);
+    }
+  });
+};
+
 const app = new Elysia()
   .use(cors())
   .ws("/ws", {
-    open(ws: any) {
+    open(ws) {
       console.log("WebSocket connection opened");
       clients.add(ws);
     },
@@ -14,28 +28,18 @@ const app = new Elysia()
       console.log(`Received message: ${message}`);
       ws.send(`Echo: ${message}`);
     },
-    close(ws: any) {
+    close(ws) {
       console.log("WebSocket connection closed");
       clients.delete(ws);
     },
   })
-  .get("/", ({ body, query, path, params }) => {
-    // console.log({ body, query, path, params });`
-    const recv_server: any = new Date();
-    query = {
-      ...query,
-      recv_server,
-    };
-    // console.log({ query });
+  .get("/", ({ query }) => {
+    const recv_server = new Date().toISOString();
+    const updatedQuery = { ...query, recv_server };
 
-    for (const client of clients) {
-      client.send(
-        JSON.stringify({
-          type: "location",
-          data: query,
-        })
-      );
-    }
+    // Use the broadcast function
+    broadcastToClients(updatedQuery);
+
     return {
       message: "Hello, Elysia!",
     };
