@@ -33,7 +33,7 @@ const app = new Elysia()
   })
   .get("/", ({ query, body }) => {
     const recv_server = new Date().toISOString();
-    const updatedQuery = { ...query, recv_server };
+    // const updatedQuery = { ...query, recv_server };
 
     console.log({ query, body });
 
