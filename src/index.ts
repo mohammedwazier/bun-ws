@@ -44,6 +44,13 @@ const app = new Elysia()
       message: "Hello, Elysia!",
     };
   })
+  .post("/", (req) => {
+    console.log({ req });
+
+    return {
+      message: "Hello, Elysia!",
+    };
+  })
   .listen(3000);
 
 console.log(
