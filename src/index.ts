@@ -35,6 +35,8 @@ const app = new Elysia()
     const recv_server = new Date().toISOString();
     const updatedQuery = { ...query, recv_server };
 
+    console.log({ updatedQuery });
+
     // Use the broadcast function
     broadcastToClients(updatedQuery);
 
