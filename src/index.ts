@@ -32,20 +32,17 @@ const app = new Elysia()
     },
   })
   .get("/", (req) => {
-    // const recv_server = new Date().toISOString();
-    // const updatedQuery = { ...query, recv_server };
-
     console.log({ req });
-
-    // Use the broadcast function
-    // broadcastToClients(updatedQuery);
 
     return {
       message: "Hello, Elysia!",
     };
   })
-  .post("/", ({ body }) => {
-    console.log({ body });
+  .post("/", ({ body }: any) => {
+    const recv_server = new Date().toISOString();
+    const updatedQuery = { ...body, recv_server };
+
+    broadcastToClients(updatedQuery);
 
     return {
       message: "Hello, Elysia!",
