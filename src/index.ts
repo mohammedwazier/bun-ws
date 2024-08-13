@@ -44,8 +44,8 @@ const app = new Elysia()
       message: "Hello, Elysia!",
     };
   })
-  .post("/", (req) => {
-    console.log({ req });
+  .post("/", ({ body }) => {
+    console.log({ body });
 
     return {
       message: "Hello, Elysia!",
