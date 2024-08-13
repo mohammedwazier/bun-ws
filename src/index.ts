@@ -31,11 +31,11 @@ const app = new Elysia()
       clients.delete(<any>ws);
     },
   })
-  .get("/", ({ query, body, params }) => {
+  .get("/", (req) => {
     // const recv_server = new Date().toISOString();
     // const updatedQuery = { ...query, recv_server };
 
-    console.log({ query, body, params });
+    console.log({ req });
 
     // Use the broadcast function
     // broadcastToClients(updatedQuery);
