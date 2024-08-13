@@ -31,12 +31,14 @@ const app = new Elysia()
       clients.delete(<any>ws);
     },
   })
-  .get("/", ({ query }) => {
+  .get("/", ({ query, body }) => {
     const recv_server = new Date().toISOString();
     const updatedQuery = { ...query, recv_server };
 
+    console.log({ query, body });
+
     // Use the broadcast function
-    broadcastToClients(updatedQuery);
+    // broadcastToClients(updatedQuery);
 
     return {
       message: "Hello, Elysia!",
